@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import api from "@/lib/api";
 
 function ProductList() {
   const searchParams = useSearchParams();
@@ -24,19 +25,18 @@ function ProductList() {
       try {
         setLoading(true);
         setError("");
-        let apiUrl = "http://localhost:8080/api/products";
+
+        let apiUrl = "/products/random";
 
         if (selectedCategory) {
-          apiUrl = `http://localhost:8080/api/products/categories/${encodeURIComponent(
+          apiUrl = `/products/categories/${encodeURIComponent(
             selectedCategory
           )}`;
         } else if (selectedBrand) {
-          apiUrl = `http://localhost:8080/api/products/brands/${encodeURIComponent(
-            selectedBrand
-          )}`;
+          apiUrl = `/products/brands/${encodeURIComponent(selectedBrand)}`;
         }
 
-        const response = await axios.get(apiUrl);
+        const response = await api.get(apiUrl);
         setProducts(response.data);
       } catch (err) {
         setError("Failed to load products. Please try again later.");

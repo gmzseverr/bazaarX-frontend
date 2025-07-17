@@ -2,27 +2,27 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 
-import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/api";
+import { toast } from "react-toastify";
 
 export default function AuthForm() {
   const router = useRouter();
-  const { login: authLogin } = useAuth();
+  const { login: authLogin } = useAuth(); // AuthContext'ten login fonksiyonunu alıyoruz
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    email: "", // Bu alan adını backend'deki LoginRequest ile eşleştiriyoruz
+    email: "",
     password: "",
-    name: "",
+    name: "", // Kayıt için kullanılacak
   });
   const [loading, setLoading] = useState(false);
 
   const toggleMode = () => {
     setIsLogin((prev) => !prev);
-    setFormData({ email: "", password: "", name: "" });
+    setFormData({ email: "", password: "", name: "" }); // Mod değiştiğinde formu temizle
   };
 
   const handleChange = (e) => {
@@ -35,33 +35,41 @@ export default function AuthForm() {
 
     try {
       if (isLogin) {
-        console.log("to log in with Email:", formData.email);
-        const res = await axios.post("http://localhost:8080/auth/login", {
+        console.log("Attempting to log in with Email:", formData.email);
+        const res = await api.post("/auth/login", {
           email: formData.email,
           password: formData.password,
         });
 
-        const { id, fullName, email } = res.data;
+        const { id, fullName, email, roles, token } = res.data;
 
-        if (fullName && email) {
-          authLogin({ id, fullName, email }, null);
+        if (id && token) {
+          authLogin({ id, fullName, email, roles }, token);
+
           toast.success("Login successful! Welcome, " + fullName);
-          console.log("Login successful! User:", fullName, "Email:", email);
+          console.log(
+            "Login successful! User:",
+            fullName,
+            "Email:",
+            email,
+            "Token:",
+            token
+          );
           router.push("/");
         } else {
           const errorMessage =
-            "Login successful but user data missing from response.";
+            "Login successful, but user data (id) or token is missing from the response.";
           toast.error(errorMessage);
           console.error(errorMessage, res.data);
         }
       } else {
         console.log(
-          "to register new user: Full Name:",
+          "Attempting to register new user: Full Name:",
           formData.name,
           "Email:",
           formData.email
         );
-        const res = await axios.post("http://localhost:8080/auth/register", {
+        const res = await api.post("/auth/register", {
           fullName: formData.name,
           email: formData.email,
           password: formData.password,
@@ -70,19 +78,27 @@ export default function AuthForm() {
         toast.success(
           res.data.message || "Registration successful! Please log in."
         );
+        router.push("/login");
+
         console.log("Registration successful! Response:", res.data);
         router.push("/auth");
       }
     } catch (err) {
       console.error("Authentication Error:", err);
+
       console.error("Backend Error Response Data:", err.response?.data);
 
       let errorMessage = "An error occurred, please try again.";
       if (err.response?.data?.message) {
         errorMessage = err.response.data.message;
-      } else if (err.response?.data?.error === "Bad Request") {
+      } else if (err.response?.status === 400) {
         errorMessage =
           "Invalid input or missing fields. Please check your data.";
+      } else if (err.response?.status === 401) {
+        errorMessage =
+          "Invalid credentials. Please check your email and password.";
+      } else if (err.response?.status === 409) {
+        errorMessage = "This email is already registered.";
       }
       toast.error(errorMessage);
     } finally {
@@ -92,8 +108,6 @@ export default function AuthForm() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-xl border border-gray-100 mt-10 mb-10">
-      <Toaster position="top-right" reverseOrder={false} />
-
       <div className="flex justify-center mb-8 border-b border-gray-200">
         <button
           onClick={toggleMode}
@@ -116,7 +130,6 @@ export default function AuthForm() {
           Sign Up
         </button>
       </div>
-
       <form onSubmit={handleSubmit} className="space-y-5">
         {!isLogin && (
           <input
@@ -161,7 +174,6 @@ export default function AuthForm() {
             : "Sign Up"}
         </button>
       </form>
-
       <p className="text-sm text-center text-gray-600 mt-6">
         {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
         <button

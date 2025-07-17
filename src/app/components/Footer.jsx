@@ -9,13 +9,15 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import api from "@/lib/api";
 
 export default function Footer() {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/products/brands") // Your brand API endpoint
+    axios;
+    api
+      .get("/products/brands")
       .then((res) => setBrands(res.data))
       .catch((err) => console.error("Error fetching brands for footer:", err));
   }, []);

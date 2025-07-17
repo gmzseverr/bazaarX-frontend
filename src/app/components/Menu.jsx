@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/api";
 
 export default function Menu() {
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
@@ -17,13 +18,15 @@ export default function Menu() {
   const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/products/categories")
+    axios;
+    api
+      .get("/products/categories")
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Failed to fetch categories", err));
 
-    axios
-      .get("http://localhost:8080/api/products/brands")
+    axios;
+    api
+      .get("/products/brands")
       .then((res) => setBrands(res.data))
       .catch((err) => console.error("Failed to fetch brands", err));
   }, []);
@@ -84,7 +87,6 @@ export default function Menu() {
 
         {isMainMenuOpen && (
           <div className="py-12 absolute bg-black font-semibold dark:bg-white text-white flex flex-col items-center gap-8 left-0 top-20 w-full h-[calc(100vh-80px)] overflow-y-auto z-10">
-            {/* Kullanıcı Durumu ve Menüsü */}
             {isAuthenticated && user ? (
               <div className="flex flex-col items-center w-full">
                 <button

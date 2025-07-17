@@ -3,14 +3,16 @@
 import Link from "next/link";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
 export default function CategoryDropdown({ onSelect }) {
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/products/categories")
+    axios;
+    api
+      .get("/products/categories")
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);

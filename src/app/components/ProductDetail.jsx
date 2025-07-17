@@ -1,38 +1,65 @@
-import axios from "axios";
+"use client"; // Bu component'in client tarafında çalıştığını belirtir
+
+import api from "@/lib/api"; // API servisiniz
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import LikeToggle from "./LikeToggle"; // LikeToggle bileşenini import edin
+import AddToCart from "./AddToCart";
 
-function ProductDetail() {
+function ProductDetail({ params }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // Favori durumu
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/products/${id}`
-        );
-        setProduct(response.data);
+    const fetchProductAndFavoriteStatus = async () => {
+      if (!id) return;
 
-        if (response.data.images && response.data.images.length > 0) {
-          setSelectedImage(response.data.images[0]);
+      try {
+        // Ürün detaylarını çek
+        const productResponse = await api.get(`/products/${id}`);
+        setProduct(productResponse.data);
+
+        if (
+          productResponse.data.images &&
+          productResponse.data.images.length > 0
+        ) {
+          setSelectedImage(productResponse.data.images[0]);
+        }
+
+        // Favori statüsünü çek (yalnızca kullanıcı giriş yapmışsa)
+        // JWT'nizin Axios interceptor'ları aracılığıyla gönderildiğini varsayıyoruz.
+        try {
+          // Backend'deki endpoint'inizin /user/{userId}/favorites/status/{productId}
+          // veya /user/favorites/status/{productId} (eğer userId JWT'den alınıyorsa) olduğundan emin olun.
+          // Mevcut kodunuzda /user/favorites/status/${id} şeklinde çağrılmış, bu iyi.
+          const favoriteStatusResponse = await api.get(
+            `/user/favorites/status/${id}`
+          );
+          // Backend'den { isLiked: true/false } şeklinde bir yanıt bekliyoruz
+          setIsLiked(favoriteStatusResponse.data.isLiked);
+        } catch (favErr) {
+          // Eğer kullanıcı giriş yapmamışsa veya API 401 döndürürse, varsayılan olarak favori değil
+          if (favErr.response && favErr.response.status === 401) {
+            console.warn(
+              "User not authenticated for favorite status check. Defaulting to not liked."
+            );
+            setIsLiked(false);
+          } else {
+            console.error("Error fetching favorite status:", favErr);
+            setIsLiked(false); // Diğer hatalarda da varsayılan olarak favori değil
+          }
         }
       } catch (err) {
-        setError("Not found");
-        console.error("API error:", err);
+        setError("Product Not Found or API Error");
+        console.error("API error fetching product:", err);
       }
     };
 
-    if (id) fetchProduct();
+    fetchProductAndFavoriteStatus();
   }, [id]);
-
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked);
-    console.log(`Ürün ${isLiked ? "disliked" : "liked"}`);
-  };
 
   if (error) {
     return (
@@ -51,14 +78,15 @@ function ProductDetail() {
       {/* images -right side*/}
       <div className="lg:w-1/2 flex flex-col items-center">
         {/* büyük */}
-        <div className="relative w-full    overflow-hidden pb-4">
+        <div className="relative w-full overflow-hidden pb-4">
           {selectedImage ? (
             <img
               src={selectedImage}
               alt={product.name}
-              layout="fill"
-              objectFit="contain"
-              className="shadow-sm"
+              // Next.js Image component'i kullanmak daha iyidir
+              // layout="fill" // Eğer Image component kullanıyorsanız
+              // objectFit="contain" // Eğer Image component kullanıyorsanız
+              className="shadow-sm w-full h-auto" // width ve height ayarlamasını Tailwind ile yapabilirsiniz
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500 rounded-lg">
@@ -74,18 +102,20 @@ function ProductDetail() {
               <div
                 key={index}
                 className={`
-                  relative  w-18 
-                  cursor-pointer  overflow-hidden 
-                  ${selectedImage === image ? "ring shadow-md" : "ring-0"}
+                  relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 // Boyutları biraz daha belirginleştirdim
+                  cursor-pointer overflow-hidden rounded-md
+                  ${
+                    selectedImage === image
+                      ? "ring-2 ring-blue-500 shadow-md"
+                      : "ring-0"
+                  } // Seçili olanı daha belirgin yapalım
                 `}
                 onClick={() => setSelectedImage(image)}
               >
                 <img
                   src={image}
                   alt={`${product.name} - image ${index + 1}`}
-                  layout="fill"
-                  objectFit="cover"
-                  className=""
+                  className="w-full h-full object-cover"
                 />
               </div>
             ))}
@@ -94,14 +124,14 @@ function ProductDetail() {
       </div>
 
       {/* product info - left side */}
-      <div className="lg:w-1/2 flex flex-col p-4  ">
+      <div className="lg:w-1/2 flex flex-col p-4">
         <h1 className="text-3xl md:text-4xl font-bold text-black mb-2">
           {product.name}
         </h1>
-        <p className="  text-neutral-400 py-1 text-md ">
-          <span className="">{product.category}</span>
+        <p className="text-neutral-400 py-1 text-md ">
+          <span>{product.category}</span>
         </p>
-        <p className=" py-1 italic text-neutral-800 ">
+        <p className="py-1 italic text-neutral-800 ">
           <span className="font-semibold text-lg">{product.brand}</span>
         </p>
 
@@ -122,7 +152,7 @@ function ProductDetail() {
                 £{product.price.toFixed(2)}
               </span>
               {/* discount rate */}
-              <span className="text-sm  text-neutral-500 ">
+              <span className="text-sm text-neutral-500 ">
                 %{product.discount} discount
               </span>
             </div>
@@ -148,7 +178,7 @@ function ProductDetail() {
                 <span
                   key={index}
                   className={`
-                    px-4 py-2 border shadow-sm text-sm font-medium
+                    px-4 py-2 border shadow-sm text-sm font-medium 
                     ${
                       detail.stockStatus === "OUT_OF_STOCK"
                         ? "bg-gray-100 text-black cursor-not-allowed line-through border-neutral-300"
@@ -162,26 +192,10 @@ function ProductDetail() {
             </div>
           </div>
         )}
-        <div className="flex">
-          <button className="bg-black text-white py-3 px-6  text-lg font-semibold hover:bg-neutral-800  cursor-pointer transition duration-300 shadow-md self-start">
-            Add to Cart
-          </button>
-          <button
-            onClick={handleLikeClick}
-            className={`
-              flex items-center justify-center gap-2 px-6 py-3  
-              transition duration-300 shadow-md
-              ${
-                isLiked
-                  ? "bg-black text-white hover:bg-gray-800"
-                  : "bg-white text-black border border-black hover:bg-gray-100"
-              }
-            `}
-          >
-            <span role="img" aria-label="heart">
-              {isLiked ? "❤️" : "🤍"}
-            </span>
-          </button>
+        <div className="flex gap-4 items-center">
+          {" "}
+          <AddToCart productId={id} />
+          <LikeToggle productId={id} initialIsLiked={isLiked} />
         </div>
       </div>
     </div>

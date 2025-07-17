@@ -47,7 +47,7 @@ const AuthButtons = () => {
         {isProfileMenuOpen && (
           <div className="absolute bg-white shadow-lg rounded-md top-10 right-0 text-sm z-50 min-w-[120px] border border-neutral-100">
             <Link
-              href="/profile"
+              href="/user/profile"
               className="block font-medium hover:bg-neutral-100 hover:text-black px-4 py-2 transition-colors"
               onClick={() => setIsProfileMenuOpen(false)}
             >

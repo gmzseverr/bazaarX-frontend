@@ -5,6 +5,7 @@ import axios from "axios";
 
 import Link from "next/link";
 import ProductCard from "./ProductCard";
+import api from "@/lib/api";
 
 export default function FeaturedProducts() {
   const [featured, setFeatured] = useState([]);
@@ -12,7 +13,7 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchRandomProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/products");
+        const response = await api.get("/products/random");
 
         const shuffled = response.data.sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 5);

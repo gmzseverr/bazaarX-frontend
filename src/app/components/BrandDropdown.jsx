@@ -3,14 +3,16 @@
 import Link from "next/link";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
 export default function BrandDropdown({ onSelect }) {
   const [brands, setBrands] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/products/brands")
+    axios;
+    api
+      .get("/products/brands")
       .then((res) => setBrands(res.data))
       .catch((err) => console.error("Error fetching brands:", err));
   }, []);
