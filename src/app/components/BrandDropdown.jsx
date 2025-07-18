@@ -28,7 +28,7 @@ export default function BrandDropdown({ onSelect }) {
 
       {open && (
         <div
-          className="absolute top-12 mt-2 bg-white text-black p-4 shadow-xl rounded-lg z-50 w-[400px] max-h-60 overflow-y-auto" // Scrollable dropdown
+          className="absolute top-12 mt-2 bg-white text-black p-4 shadow-xl rounded-lg z-50 w-[400px] max-h-60 overflow-y-auto"
           onMouseLeave={() => setOpen(false)}
         >
           <div className="grid grid-cols-2 items-center gap-2">

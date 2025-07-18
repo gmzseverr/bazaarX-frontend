@@ -1,8 +1,7 @@
-// components/Slider.jsx
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const slides = [
   {
@@ -10,7 +9,7 @@ const slides = [
     title: "New Brand Alert: Tommy Hilfiger",
     description: "Discover the latest collection from Tommy Hilfiger.",
     img: "https://img01.ztat.net/article/spp-media-p1/782b41b66c434f66affba25045e5ff80/0e2df7f7bc714c7bb684b77c3cfa3efc.jpg?imwidth=1800",
-    url: "/",
+    url: "/shop?brand=Tommy%20Jeans",
     background: "bg-gradient-to-r from-blue-50 to-red-50",
   },
   {
@@ -18,7 +17,7 @@ const slides = [
     title: "Active Wear",
     description: "Comfort and style for your active lifestyle.",
     img: "https://img01.ztat.net/article/spp-media-p1/a726ca6f088d45d5b21071120d131162/c0ef54f075c04dc595bce56335ab6052.jpg?imwidth=1800",
-    url: "/",
+    url: "/shop?category=sportswear",
     background: "bg-gradient-to-r from-pink-50 to-yellow-50",
   },
   {
@@ -26,13 +25,20 @@ const slides = [
     title: "Summer Sale Collections",
     description: "Sale! Up to 50% off!",
     img: "https://i.pinimg.com/736x/25/a5/c9/25a5c983a9db18b7e2762360a10c77f5.jpg",
-    url: "/",
+    url: "/shop?category=dresses%20%26%20jumpsuits",
     background: "bg-gradient-to-r from-pink-50 to-blue-50",
   },
 ];
 
 function Slider() {
   const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="md:h-[calc(100vh-80px)] h-[calc(100vh-3px)] overflow-hidden relative">

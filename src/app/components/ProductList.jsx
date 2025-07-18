@@ -21,12 +21,16 @@ function ProductList() {
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [selectedCategory, selectedBrand]);
+
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
         setError("");
 
-        let apiUrl = "/products/random";
+        let apiUrl = "/products/";
 
         if (selectedCategory) {
           apiUrl = `/products/categories/${encodeURIComponent(

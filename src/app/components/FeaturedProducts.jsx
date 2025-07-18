@@ -13,7 +13,7 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchRandomProducts = async () => {
       try {
-        const response = await api.get("/products/random");
+        const response = await api.get("/products/");
 
         const shuffled = response.data.sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 5);

@@ -1,4 +1,3 @@
-// components/Navbar.jsx
 "use client";
 
 import Link from "next/link";
@@ -15,23 +14,20 @@ function Navbar() {
   const { isAuthenticated, user } = useAuth();
   const [cartItemCount, setCartItemCount] = useState(0);
 
-  // 2. Define the fetchCartCount function in Navbar
   const fetchCartCount = async () => {
     if (isAuthenticated && user?.id) {
       try {
-        const response = await api.get("/user/cart/count"); // Assuming this endpoint exists
+        const response = await api.get("/user/cart/count");
         setCartItemCount(response.data.count);
       } catch (error) {
         console.error("Failed to fetch cart count in Navbar:", error);
-        setCartItemCount(0); // Reset on error
+        setCartItemCount(0);
       }
     } else {
-      setCartItemCount(0); // Clear count if not authenticated
+      setCartItemCount(0);
     }
   };
 
-  // 3. Use useEffect to fetch initial cart count when Navbar mounts
-  // and whenever authentication status or user ID changes.
   useEffect(() => {
     fetchCartCount();
   }, [isAuthenticated, user?.id]);
@@ -61,9 +57,7 @@ function Navbar() {
             <Link href="/shop" className="hover:text-primary-600">
               Shop
             </Link>
-            <Link href="/deals" className="hover:text-primary-600">
-              Deals
-            </Link>
+
             <BrandDropdown />
             <CategoryDropdown />
           </div>
