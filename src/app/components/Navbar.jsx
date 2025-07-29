@@ -44,7 +44,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* desktop */}
       <div className="hidden md:flex items-center h-full justify-between gap-4 xl:gap-8">
         <div className="flex-1 flex items-center gap-8">
           <Link href="/" className="font-bold text-3xl">

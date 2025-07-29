@@ -84,13 +84,9 @@ function NavIcons({ cartItemCount, setCartItemCount, fetchCartCount }) {
           </div>
         )}
 
-        {/* Removed the duplicate cartItemCount badge rendering */}
-
         {isCartOpen && isAuthenticated && (
           <CartModal
             setIsCartOpen={setIsCartOpen}
-            // Now, pass the 'fetchCartCount' prop to 'onCartItemsChanged'
-            // so CartModal can trigger a full re-fetch from the API if items change within it.
             onCartItemsChanged={fetchCartCount}
           />
         )}
