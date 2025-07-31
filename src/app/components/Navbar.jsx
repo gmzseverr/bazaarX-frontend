@@ -33,7 +33,7 @@ function Navbar() {
   }, [isAuthenticated, user?.id]);
 
   return (
-    <div className="h-20 px-6 md:px-8 relative border-b border-gray-200">
+    <div className="h-20 px-6 md:px-8 relative border-b bg-white text-black border-gray-200">
       {/* mobile */}
       <div className="flex md:hidden items-center justify-between h-full">
         <Link href="/" className="font-extrabold tracking-wide text-xl">

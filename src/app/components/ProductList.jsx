@@ -77,7 +77,7 @@ function ProductList() {
 
   return (
     <div>
-      <div className="flex py-4 items-center gap-4">
+      <div className="flex py-4  items-center gap-4">
         <h2 className="text-2xl font-bold">
           {selectedCategory
             ? selectedCategory

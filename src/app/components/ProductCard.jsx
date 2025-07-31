@@ -5,7 +5,7 @@ import AddToCart from "./AddToCart";
 
 export default function ProductCard({ product }) {
   return (
-    <div className=" cursor-pointer shadow hover:shadow-lg transition duration-300">
+    <div className=" cursor-pointer shadow hover:shadow-lg bg-white transition duration-300">
       <div className="relative flex flex-col">
         <div className="absolute top-0 right-0 z-10 p-2"> </div>
         <Link href={`/product/${product.id}`}>
@@ -22,7 +22,7 @@ export default function ProductCard({ product }) {
             <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 min-h-[2.5rem]">
               {product.name}
             </h3>
-            <div className="flex gap-4 text-xs items-center justify-between">
+            <div className="flex gap-4 text-xs text-black items-center justify-between">
               <p>Price</p>
               <h4 className="text-xl font-bold text-black mt-2">
                 ${product.price.toFixed(2)}

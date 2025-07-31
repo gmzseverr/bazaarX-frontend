@@ -77,7 +77,6 @@ function NavIcons({ cartItemCount, setCartItemCount, fetchCartCount }) {
           icon={faBagShopping}
         />
 
-        {/* This is the correct placement for the cart count badge */}
         {cartItemCount > 0 && (
           <div className="absolute text-xs font-semibold text-white -top-3 -right-2 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center">
             {cartItemCount}

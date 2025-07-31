@@ -84,9 +84,9 @@ function ProfilePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white min-h-screen font-sans">
-      <div className="border-b border-black mb-8 pb-6 text-center">
-        <h1 className="text-3xl font-semibold text-gray-900 mb-1">
+    <div className="max-w-3xl mx-auto p-6  dark:bg-black  light:bg-white min-h-screen font-sans">
+      <div className="border-b  border-black mb-8 pb-6 text-center">
+        <h1 className="text-3xl font-semibold dark:text-white text-gray-900 mb-1">
           {user?.fullName || "User"}
         </h1>
       </div>
@@ -94,22 +94,40 @@ function ProfilePage() {
       {/* Links */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Link
-          href="/favorites"
-          className="border border-black rounded-md p-4 text-center text-black hover:bg-black hover:text-white font-semibold transition"
+          href="/user/favorites"
+          className="
+          border rounded-md p-4 text-center font-semibold transition
+          text-black border-black
+          hover:bg-black hover:text-white
+          dark:text-white dark:border-white
+          dark:hover:bg-white dark:hover:text-black
+        "
         >
           Favorites
         </Link>
 
         <Link
           href="/settings"
-          className="border border-black rounded-md p-4 text-center text-black hover:bg-black hover:text-white font-semibold transition"
+          className="
+          border rounded-md p-4 text-center font-semibold transition
+          text-black border-black
+          hover:bg-black hover:text-white
+          dark:text-white dark:border-white
+          dark:hover:bg-white dark:hover:text-black
+        "
         >
           Account Settings
         </Link>
 
         <button
           onClick={handleLogout}
-          className="border border-black rounded-md p-4 text-center text-black hover:bg-black cursor-pointer hover:text-white font-semibold transition"
+          className="
+          border rounded-md p-4 text-center font-semibold transition
+          text-black border-black
+          hover:bg-black hover:text-white
+          dark:text-white dark:border-white
+          dark:hover:bg-white dark:hover:text-black
+        "
         >
           Logout
         </button>

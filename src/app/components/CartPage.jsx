@@ -175,7 +175,7 @@ function CartPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 md:p-10 lg:p-12">
+    <div className="container  dark:text-white mx-auto p-6 md:p-10 lg:p-12">
       <h2 className="text-3xl font-bold text-center mb-10">
         Your Shopping Cart
       </h2>
@@ -283,7 +283,7 @@ function CartPage() {
         </div>
 
         {/* Sepet Özeti */}
-        <div className="lg:w-1/3 bg-white p-6 rounded-lg shadow-sm h-fit sticky top-20">
+        <div className="lg:w-1/3 dark:text-black bg-white p-6 rounded-lg shadow-sm h-fit sticky top-20">
           <h3 className="text-xl font-semibold border-b pb-4 mb-6">
             Order Summary
           </h3>
@@ -304,7 +304,7 @@ function CartPage() {
           <div className="flex flex-col">
             <Link
               href="/user/order"
-              className="w-full bg-black text-center text-white py-3 rounded-sm mt-6 hover:bg-gray-800 transition-colors duration-200 text-lg font-semibold"
+              className="w-full bg-black text-center dark:text-white text-white py-3 rounded-sm mt-6 hover:bg-gray-800 transition-colors duration-200 text-lg font-semibold"
             >
               Proceed to Order
             </Link>

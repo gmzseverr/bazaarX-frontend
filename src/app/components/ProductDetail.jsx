@@ -125,13 +125,13 @@ function ProductDetail({ params }) {
 
       {/* product info - left side */}
       <div className="lg:w-1/2 flex flex-col p-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-black mb-2">
+        <h1 className="text-3xl md:text-4xl font-bold  dark:text-white light:text-black mb-2">
           {product.name}
         </h1>
-        <p className="text-neutral-400 py-1 text-md ">
+        <p className="light:text-neutral-400 dark:text-neutral-100 py-1 text-md ">
           <span>{product.category}</span>
         </p>
-        <p className="py-1 italic text-neutral-800 ">
+        <p className="py-1 italic text-neutral-800 dark:text-neutral-50  ">
           <span className="font-semibold text-lg">{product.brand}</span>
         </p>
 
@@ -148,24 +148,24 @@ function ProductDetail({ params }) {
             </p>
             <div className="flex items-baseline ">
               {/* org price */}
-              <span className="text-neutral-400 line-through text-md mr-2">
+              <span className="text-neutral-400 dark:text-white line-through text-md mr-2">
                 £{product.price.toFixed(2)}
               </span>
               {/* discount rate */}
-              <span className="text-sm text-neutral-500 ">
+              <span className="text-sm text-red-700 ">
                 %{product.discount} discount
               </span>
             </div>
           </div>
         ) : (
           // without discount
-          <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <p className="text-3xl md:text-4xl font-bold dark:text-white  text-gray-900 mb-4">
             £{product.price.toFixed(2)}
           </p>
         )}
 
         {product.sku && (
-          <p className="text-sm text-gray-700 pb-4">
+          <p className="text-sm light:text-gray-700 dark:text-neutral-200 pb-4">
             SKU: <span className="font-mono">{product.sku}</span>
           </p>
         )}

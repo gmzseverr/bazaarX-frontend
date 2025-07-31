@@ -66,9 +66,9 @@ const brands = [
 
 export default function BrandSlider() {
   return (
-    <div className="overflow-hidden relative w-full">
+    <div className="overflow-hidden mt-10 bg-white relative w-full">
       <div
-        className="flex items-center pt-18 px-12 space-x-8 animate-slide"
+        className="flex items-center py-4 px-12 space-x-8 animate-slide"
         style={{ width: `${brands.length * 150}px` }}
       >
         {[...brands, ...brands].map((brand, index) => (

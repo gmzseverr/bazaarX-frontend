@@ -6,8 +6,8 @@ function OrderModal({ isOpen, onClose, orderDetails }) {
   const order = orderDetails;
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-6 sm:p-8 relative animate-fade-in-up border border-neutral-200">
+    <div className="fixed inset-0  bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white text-black rounded-2xl shadow-2xl w-full max-w-2xl p-6 sm:p-8 relative animate-fade-in-up border border-neutral-200">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-xl text-neutral-500 hover:text-neutral-800 transition"
