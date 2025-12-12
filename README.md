@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#  BazaarX
 
-## Getting Started
+BazaarX is a modern e-commerce web application built with **Next.js** and **Tailwind CSS**.  
+This repository includes the **frontend** implementation, UI components, and API integrations.
 
-First, run the development server:
+🔗 **Live Demo:**  
+https://bazaar-x-frontend-vert.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ⚠️ Deployment Note
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Important:** The backend API is hosted on **Render (Free Tier)**, which uses an automatic cold-start mechanism.  
+> Because of this, the **first request after a period of inactivity may take 20–30 seconds** while the server initializes.  
+> Once the service is active, all subsequent API responses will be fast and normal.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+##  Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js**
+- **React**
+- **Tailwind CSS**
+- **Axios**
+- **JavaScript (ES6+)**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+##  Features
 
-## Deploy on Vercel
+- Fully responsive custom UI  
+- Product listing & product detail pages  
+- User authentication (register & login)  
+- Add to cart & remove from cart  
+- API integration with the custom backend  
+- Clean, component-based architecture  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+##  Backend Repository
+
+The backend of BazaarX (built with **Spring Boot + MySQL**) is available here:
+
+👉 https://github.com/gmzseverr/bazaarx-backend
+
+---
+
+
+
